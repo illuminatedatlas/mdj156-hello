@@ -1,0 +1,43 @@
+name: Deploy
+# Triggered on demand by the dev-hub/team release console after an approval.
+# Prod deploys work once CLOUDFLARE_API_TOKEN is set as an org Actions secret.
+# Staging deploys require a `deploy:staging` script or a wrangler `staging` env
+# (added per project during the staging-subdomain backfill).
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        type: choice
+        options:
+          - prod
+          - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Only the release console's dispatch identity (the GITHUB_DISPATCH_TOKEN
+    # owner) may deploy. A collaborator's manual "Run workflow" runs as their own
+    # handle and is rejected here. Update this list when the GitHub App replaces
+    # the dispatch PAT.
+    if: ${{ contains(fromJSON('["z3r0-myk3","company-IA","illuminated-atlas-console[bot]"]'), github.actor) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then npm ci; elif [ -f package.json ]; then npm install; fi
+      - name: Deploy to ${{ inputs.environment }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -e
+          has_script() { node -e "process.exit((require('./package.json').scripts||{})['$1']?0:1)" 2>/dev/null; }
+          if [ "${{ inputs.environment }}" = "staging" ]; then
+            if has_script deploy:staging; then npm run deploy:staging; else npx wrangler deploy --env staging; fi
+          else
+            if has_script deploy; then npm run deploy; else npx wrangler deploy; fi
+          fi
