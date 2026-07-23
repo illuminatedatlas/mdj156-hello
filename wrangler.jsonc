@@ -1,0 +1,29 @@
+{
+  "name": "mdj156-hello",
+  "main": "./src/index.js",
+  "compatibility_date": "2026-07-23",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "mdj156-hello.illuminatedatlas.com", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./site",
+    "binding": "ASSETS"
+  },
+  "env": {
+    // Staging: `npm run deploy:staging`. Own worker + single subdomain.
+    "staging": {
+      "name": "mdj156-hello-staging",
+      "workers_dev": false,
+      "preview_urls": false,
+      "routes": [
+        { "pattern": "mdj156-hello-staging.illuminatedatlas.com", "custom_domain": true }
+      ],
+      "assets": {
+        "directory": "./site",
+        "binding": "ASSETS"
+      }
+    }
+  }
+}
