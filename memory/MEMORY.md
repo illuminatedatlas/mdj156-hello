@@ -1,0 +1,1 @@
+- [Project purpose](project-purpose.md) — throwaway test project for the new-project pipeline; easy to rename/reuse later

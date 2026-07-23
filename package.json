@@ -1,0 +1,11 @@
+{
+  "name": "mdj156-hello",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging"
+  },
+  "devDependencies": {
+    "wrangler": "^4.107.0"
+  }
+}
