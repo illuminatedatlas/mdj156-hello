@@ -2,8 +2,9 @@
   "name": "mdj156-hello",
   "private": true,
   "scripts": {
-    "deploy": "wrangler deploy",
-    "deploy:staging": "wrangler deploy --env staging"
+    "stamp": "node tools/stamp-version.mjs",
+    "deploy": "npm run stamp && wrangler deploy",
+    "deploy:staging": "npm run stamp && wrangler deploy --env staging"
   },
   "devDependencies": {
     "wrangler": "^4.107.0"
