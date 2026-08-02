@@ -3,9 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>mdj156-hello</title>
+  <title>Important Project Update</title>
+  <meta name="description" content="Q3 status report for mdj156-hello. Please review." />
   <style>
-    :root { color-scheme: light dark; }
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
@@ -15,16 +17,87 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #0b0d12;
       color: #e8ebf0;
+      padding: 1.5rem;
+      overflow-x: hidden;
     }
-    main { text-align: center; padding: 2rem; }
-    h1 { font-size: 2.5rem; margin: 0 0 0.5rem; }
-    p { opacity: 0.7; margin: 0; }
+    main { text-align: center; width: 100%; max-width: 860px; }
+    h1 { font-size: clamp(1.75rem, 6vw, 3rem); margin: 0 0 0.4rem; }
+    .sub { opacity: 0.65; margin: 0 0 1.5rem; font-size: clamp(0.9rem, 3vw, 1.05rem); }
+    .frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      background: #000;
+    }
+    .frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .footer { margin: 1.5rem 0 0; opacity: 0.45; font-size: 0.85rem; }
+    .footer a { color: inherit; }
+    /* Pre-reveal state */
+    body.armed .reveal { display: none; }
+    body:not(.armed) .decoy { display: none; }
+    .decoy-card {
+      border: 1px solid #232838;
+      border-radius: 14px;
+      padding: 2rem 1.5rem;
+      background: #10131c;
+    }
+    button {
+      margin-top: 1.25rem;
+      font: inherit;
+      font-weight: 600;
+      padding: 0.7rem 1.4rem;
+      border-radius: 10px;
+      border: 0;
+      background: #4f7cff;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover { background: #6289ff; }
   </style>
 </head>
 <body>
   <main>
-    <h1>Hello, world 👋</h1>
-    <p>mdj156-hello — a tiny test project on the Atlas platform.</p>
+    <div class="decoy">
+      <div class="decoy-card">
+        <h1>Important Project Update</h1>
+        <p class="sub">mdj156-hello has one pending item requiring your review.</p>
+        <button id="go" type="button">View the update</button>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <h1>Never gonna give you up 🕺</h1>
+      <p class="sub">You've been rickrolled by your own test repo.</p>
+      <div class="frame">
+        <iframe
+          id="rick"
+          src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&playsinline=1"
+          title="Rick Astley - Never Gonna Give You Up"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+      <p class="footer">
+        mdj156-hello — a tiny test project on the Atlas platform.
+        <br />Video: <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Rick Astley on YouTube</a>
+      </p>
+    </div>
   </main>
+
+  <script>
+    document.body.classList.add('armed');
+    document.getElementById('go').addEventListener('click', () => {
+      document.body.classList.remove('armed');
+    });
+  </script>
 </body>
 </html>
